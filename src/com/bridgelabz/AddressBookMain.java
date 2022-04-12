@@ -3,8 +3,7 @@ package com.bridgelabz;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class AddressBookMain {
-    static Scanner scanner = new Scanner(System.in);
+public class AddressBookMain {static Scanner scanner = new Scanner(System.in);
     LinkedList<Contacts> person = new LinkedList<>();
 
     public void addPerson() {
@@ -24,16 +23,15 @@ public class AddressBookMain {
         String phoneNumber = scanner.next();
         System.out.println("Enter the Email");
         String email = scanner.next();
-        //creating contacts object and passing arguments inside constructor
+     //creating contacts object and passing arguments inside constructor
         Contacts p = new Contacts(fName, lName, address, city, state, zip, phoneNumber, email);
-        //adding p object into the linked list with Contact class data type
+     //adding p object into the linked list with Contact class data type
         person.add(p);
-       //printing person array list
+    //printing person array list
         System.out.println(person);
 
     }
-
-      //editing contact by searching names
+    //editing contact by searching names
     public void editPerson() {
         System.out.println("Enter the name to edit");
         String s = scanner.next();
@@ -86,10 +84,30 @@ public class AddressBookMain {
 
     }
 
+    public void deletePerson() {
+        System.out.println("Enter the name to search and delete");
+        String s = scanner.next();
+        for (int i = 0; i < person.size(); i++) {
+            Contacts p = person.get(i);
+            if (s.equals(p.getFirstName())) {
+                person.remove(i);
+            }
+        }
+        System.out.println("contact after deletion");
+        if (person.isEmpty() != true)
+            System.out.println(person);
+        else {
+            System.out.println("contacts deleted");
+        }
+    }
+
     public static void main(String[] args) {
         AddressBookMain addressBook = new AddressBookMain();
         System.out.println("Start with Displaying Welcome to Address Book Program in AddressBookMain class");
         addressBook.addPerson();
         addressBook.editPerson();
+        addressBook.deletePerson();
+
     }
 }
+
