@@ -1,13 +1,15 @@
 package com.bridgelabz;
 
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class AddressBookMain {
     static Scanner scanner = new Scanner(System.in);
     LinkedList<Contacts> person = new LinkedList<>();
+    File file = new File("AddressBook.txt");
 
-    public void addPerson() {
+    public void addPerson() throws IOException {
         System.out.println("Enter the First Name");
         String fName = scanner.next();
         System.out.println("Enter the Last Name");
@@ -24,11 +26,12 @@ public class AddressBookMain {
         String phoneNumber = scanner.next();
         System.out.println("Enter the Email");
         String email = scanner.next();
-     //creating contacts object and passing arguments inside constructor
+        //creating contacts object and passing arguments inside constructor
         Contacts p = new Contacts(fName, lName, address, city, state, zip, phoneNumber, email);
-     //adding p object into the linked list with Contact class data type
+        //adding p object into the linked list with Contact class data type
+        addToFile(p);
         person.add(p);
-     //printing person array list
+        //printing person array list
         System.out.println(person);
 
     }
@@ -104,7 +107,7 @@ public class AddressBookMain {
         }
     }
 
-    public void addMultiplePerson() {
+    public void addMultiplePerson() throws IOException {
         while (true) {
             System.out.println(
                     "Enter the option \n1)To Add Contect\n2)To Edit Contact" + "\n3)To Delete Contact\n4)exit");
@@ -121,9 +124,33 @@ public class AddressBookMain {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         AddressBookMain addressBook = new AddressBookMain();
         System.out.println("Start with Displaying Welcome to Address Book Program ");
         addressBook.addMultiplePerson();
     }
-}
+
+    private void addToFile(Contacts p) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(p.getFirstName() + "\r\n" + p.getLastName() + "\r\n" + p.getAddress() + "\r\n" + p.getCity() +
+                    "\r\n" + p.getState() + "\r\n" + p.getZip() + "\r\n" + p.getPhoneNumber() + "\r\n" + p.getEmail() + "\r\n\r\n");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+        public boolean readPeopleFromFile(){
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String name = null;
+                while ((name = reader.readLine()) != null) {
+                    Contacts person1 = new Contacts(name, reader.readLine(), reader.readLine(), reader.readLine(), reader.readLine(), reader.readLine(), reader.readLine(), reader.readLine());
+                    person.add(person1);        //adds person to the list
+                    reader.readLine();
+                }
+                return true;
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+            return false;
+        }
+    }

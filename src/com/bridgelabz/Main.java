@@ -1,12 +1,13 @@
 package com.bridgelabz;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {static Scanner scanner = new Scanner(System.in);
     HashMap<Integer, AddressBookMain> addressbookNum = new HashMap<>();
 
-    public void addMultipleAddressBook() {
+    public void addMultipleAddressBook() throws IOException {
 
         while (true) {
 
@@ -40,10 +41,13 @@ public class Main {static Scanner scanner = new Scanner(System.in);
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Start with Displaying Welcome to Address Book ");
         Main main = new Main();
+        AddressBookMain addressBookMain = new AddressBookMain();
+        addressBookMain.readPeopleFromFile();
         main.addMultipleAddressBook();
+
     }
 
 }
